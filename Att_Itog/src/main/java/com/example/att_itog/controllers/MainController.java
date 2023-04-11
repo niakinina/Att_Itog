@@ -62,4 +62,10 @@ public class MainController {
        personService.register(person);
         return "redirect:/index";
     }
+
+//    Idea-773c22b1=639b8f8c-8d9a-4480-a41f-522765673695;
+//    JSESSIONID=49DE616E7D880C4FE8ACF0FBFCE1F021
+
+    Idea-773c22b1=639b8f8c-8d9a-4480-a41f-522765673695;
+    JSESSIONID=E3ED64F5AAE307AEC14B9305530EFB5A
 }

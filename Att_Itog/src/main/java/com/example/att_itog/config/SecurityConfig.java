@@ -59,7 +59,11 @@ public class SecurityConfig {
                 // Указываем куда необходимо перенаправить пользователя при правильной аутентификации.
                 // В запрос буден передан еррор, который будет проверяться на форме и при наличии данного объекта в запросе
                 // выводится сообщение "Неправильный логин или пароль"
-                .failureUrl("/authentication?error");
+                .failureUrl("/authentication?error")
+
+                .and()
+                // перенаправление пользователя на страницу аутентификации
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/authentication");
 
         return http.build();
 
