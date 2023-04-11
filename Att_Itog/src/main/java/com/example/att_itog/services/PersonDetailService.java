@@ -29,7 +29,7 @@ public class PersonDetailService implements UserDetailsService {
         // Если пользователь не был найден, то выбрасываем исключение
         // Данное исключение будет поймано Спринг Секьюрити и сообщение будет выведено на страницу
         if(person.isEmpty()) {
-            throw new UsernameNotFoundException("Пользователь не найден")
+            throw new UsernameNotFoundException("Пользователь не найден");
         }
         return new PersonDetails(person.get());
     }
