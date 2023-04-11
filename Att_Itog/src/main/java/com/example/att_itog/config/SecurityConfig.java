@@ -34,7 +34,7 @@ public class SecurityConfig {
                 // и на объект ошибки;
                 // с помощью пермитола указываем, что не аутентифицированные пользователи могут заходить
                 // на перечисленные страницы
-                .requestMatchers("/authentication", "/error").permitAll()
+                .requestMatchers("/authentication", "/error", "/registration").permitAll()
 
                 // указываем, что для всех остальных страниц необходимо вызывать метод authenticated(),
                 // который открывает форму аутентификации
