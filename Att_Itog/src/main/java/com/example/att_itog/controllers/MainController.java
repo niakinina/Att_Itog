@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.concurrent.RecursiveTask;
+
 
 @Controller
 public class MainController {
@@ -33,10 +35,14 @@ public class MainController {
         // Из сессии текуего пользователя получаем объект, кот. был положен в данную сесию после аутентиф-ии пользователя
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
-        System.out.println(personDetails.getPerson());
-        System.out.println("ID пользователя: " + personDetails.getPerson().getId());
-        System.out.println("Логин пользователя: " + personDetails.getPerson().getLogin());
-        System.out.println("Пароль пользователя: " + personDetails.getPerson().getPassword());
+        String role = personDetails.getPerson().getRole();
+        if(role.equals("ROLE_ADMIN")){
+            return "redirect:/admin";
+        }
+//        System.out.println(personDetails.getPerson());
+//        System.out.println("ID пользователя: " + personDetails.getPerson().getId());
+//        System.out.println("Логин пользователя: " + personDetails.getPerson().getLogin());
+//        System.out.println("Пароль пользователя: " + personDetails.getPerson().getPassword());
 
         return "index";
 
