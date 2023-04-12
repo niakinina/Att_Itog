@@ -3,6 +3,7 @@ package com.example.att_itog.services;
 import com.example.att_itog.models.Person;
 import com.example.att_itog.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,9 +13,12 @@ import java.util.Optional;
 public class PersonService {
     private final PersonRepository personRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public PersonService(PersonRepository personRepository) {
+    public PersonService(PersonRepository personRepository, PasswordEncoder passwordEncoder) {
         this.personRepository = personRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Person findByLogin(Person person){
@@ -24,6 +28,8 @@ public class PersonService {
 
     @Transactional
     public void register(Person person){
+        person.setPassword(passwordEncoder.encode(person.getPassword()));
+        person.setRole("ROLE_USER");
         personRepository.save(person);
     }
 }

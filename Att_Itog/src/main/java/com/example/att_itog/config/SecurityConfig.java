@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -16,18 +17,17 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     private final PersonDetailService personDetailService;
 
-    // Здесь мы убираем шифрование паролей, это делается исключительно для тестирования
+    // Позволяет хэшировать пароли с пом. бикрипт
     @Bean
     public PasswordEncoder getPasswordEncode(){
-        return NoOpPasswordEncoder.getInstance();
-
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // конфигурируем работу спринг секьюрити
-
-        http.csrf().disable() // отключаем защиту от межсайтовой подделки запросов
+        //csrf().disable() // отключаем защиту от межсайтовой подделки запросов
+        http
                 .authorizeHttpRequests() // указываем что все страницы должны быть защищены аутентификацией
 
                 // ниже указываем что не аутентифицированные пользователи могут зайти на страницу аутентификации
@@ -38,7 +38,17 @@ public class SecurityConfig {
 
                 // указываем, что для всех остальных страниц необходимо вызывать метод authenticated(),
                 // который открывает форму аутентификации
-                .anyRequest().authenticated()
+                //       .anyRequest().authenticated()
+
+
+                // указываем что страница админ доступна пользователю с ролью админ
+                .requestMatchers("/admin").hasRole("ADMIN")
+
+                // эти страницы доступны всем пользователям
+                .requestMatchers("/authentication", "/registration", "/error", "/resources/**", "/static/**", "/css/**", "/js/**", "/img/**").permitAll()
+
+                // здесь мы указываем, что остальные страницы доступны как админу, так и простому пользователю
+                .anyRequest().hasAnyRole("USER", "ADMIN")
 
                 // указываем, что дальше настраивается аутентификация и соединяем ее с настройкой доступа (нд - всё что выше)
                 .and()
@@ -81,7 +91,8 @@ public class SecurityConfig {
 
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
 //        authenticationManagerBuilder.authenticationProvider(authenticationProvider);
-        authenticationManagerBuilder.userDetailsService(personDetailService);
+        authenticationManagerBuilder.userDetailsService(personDetailService)
+                .passwordEncoder(getPasswordEncode());
 
     }
 }

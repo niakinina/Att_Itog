@@ -6,6 +6,14 @@
 </head>
 <body>
 <h3>В данном приложении используется Spring Security</h3>
+<!--тут можно добавить из бутстрапа кнопку и стили -->
 <a href="/logout">Выйти из личного кабинета</a>
+<form method="post" action="/logout">
+    <button type="submit">Выйти из личного кабинета</button>
+</form>
+<!--<script th:inline="javascript">
+    var username = [[${user.grtId()}]];
+</script>-->
+
 </body>
 </html>
