@@ -13,7 +13,7 @@
     <br>
     <br>
     <label for="description">Введите описание товара: </label>
-    <textarea th:field="*{description}" placeholder="Описание" id="description"></textarea>>
+    <textarea th:field="*{description}" placeholder="Описание" id="description"></textarea>
     <div style="color: red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
     <br>
     <br>
@@ -38,6 +38,7 @@
     <br>
     <label for="seller">Введите данные о продавце: </label>
     <textarea th:field="*{seller}" placeholder="Продавец" id="seller"></textarea>
+    <div style="color: red" th:if="${#fields.hasErrors('seller')}" th:errors="*{seller}"></div>
     <br>
     <br>
     <p style="color: red">Вы можете добавить до 5 фотографий.
