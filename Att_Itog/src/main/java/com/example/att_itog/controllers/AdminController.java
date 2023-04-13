@@ -10,11 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -136,4 +133,17 @@ public class AdminController {
         return "admin";
     }
 
+    @GetMapping("admin/product/delete/{id}")
+    public String deleteProduct(@PathVariable("id") int id){
+        productService.deleteProduct(id);
+        return "redirect:/admin";
+    }
+
+    @GetMapping("/product/edit/{id}")
+    public String editProduct(Model model, @PathVariable("id") int id){
+        model.addAttribute("product", productService.getProductId(id));
+        model.addAttribute("category", categoryRepository.findAll());
+        return "product/editProduct";
+
+    }
 }

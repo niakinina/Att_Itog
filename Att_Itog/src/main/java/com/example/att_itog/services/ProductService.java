@@ -24,7 +24,7 @@ public class ProductService {
     }
 
     // Данный метод позволяет получить товар по айди
-    public Product getProduct(int id){
+    public Product getProductId(int id){
         Optional<Product> optionalProduct = produtRepository.findById(id);
         return optionalProduct.orElse(null);
     }

@@ -79,6 +79,7 @@ public class SecurityConfig {
 
     }
 
+    @Autowired
     public SecurityConfig(PersonDetailService personDetailService) {
         this.personDetailService = personDetailService;
     }
