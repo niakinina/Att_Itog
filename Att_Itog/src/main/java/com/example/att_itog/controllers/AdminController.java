@@ -10,8 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -139,11 +140,21 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/product/edit/{id}")
+    @GetMapping("admin/product/edit/{id}")
     public String editProduct(Model model, @PathVariable("id") int id){
         model.addAttribute("product", productService.getProductId(id));
         model.addAttribute("category", categoryRepository.findAll());
         return "product/editProduct";
 
+    }
+
+    @PostMapping("admin/product/edit/{id}")
+    public String editProduct(@ModelAttribute("product") @Valid Product product, BindingResult bindingResult, @PathVariable("id") int id, Model model){
+        if(bindingResult.hasErrors()){
+            model.addAttribute("category", categoryRepository.findAll());
+            return "product/editProduct";
+        }
+        productService.updateProduct(id, product);
+        return "redirect:/admin";
     }
 }

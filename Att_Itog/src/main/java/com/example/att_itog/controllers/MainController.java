@@ -3,17 +3,18 @@ package com.example.att_itog.controllers;
 import com.example.att_itog.models.Person;
 import com.example.att_itog.security.PersonDetails;
 import com.example.att_itog.services.PersonService;
+import com.example.att_itog.services.ProductService;
 import com.example.att_itog.util.PersonValidator;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.concurrent.RecursiveTask;
 
 
 @Controller
@@ -23,13 +24,16 @@ public class MainController {
 
     private final PersonService personService;
 
-    public MainController(PersonValidator personValidator, PersonService personService) {
+    private final ProductService productService;
+
+    public MainController(PersonValidator personValidator, PersonService personService, ProductService productService) {
         this.personValidator = personValidator;
         this.personService = personService;
+        this.productService = productService;
     }
 
-    @GetMapping("/index")
-    public String index() {
+    @GetMapping("/person_account")
+    public String index(Model model) {
         // Получаем объект аутентификации
         // с помощью спрингконтекстхолдер обращаемся к контексту и на нем вызываем метод аутентификации
         // Из сессии текуего пользователя получаем объект, кот. был положен в данную сесию после аутентиф-ии пользователя
@@ -43,8 +47,8 @@ public class MainController {
 //        System.out.println("ID пользователя: " + personDetails.getPerson().getId());
 //        System.out.println("Логин пользователя: " + personDetails.getPerson().getLogin());
 //        System.out.println("Пароль пользователя: " + personDetails.getPerson().getPassword());
-
-        return "index";
+        model.addAttribute("products", productService.getAllProduct());
+        return "/user/index";
 
     }
 
@@ -66,7 +70,20 @@ public class MainController {
            return "/registration";
        }
        personService.register(person);
-        return "redirect:/index";
+        return "redirect:/person_account";
+    }
+
+    @GetMapping("/person_account/product")
+    public String getAllProduct(Model model){
+        model.addAttribute("products", productService.getAllProduct());
+        return "/user/index";
+    }
+
+    @GetMapping("/person_account/product/{id}")
+    public String infoProduct(@PathVariable("id") int id, Model model){
+
+        model.addAttribute("product", productService.getProductId(id));
+        return "/user/infoProduct";
     }
 
 //    Idea-773c22b1=639b8f8c-8d9a-4480-a41f-522765673695;

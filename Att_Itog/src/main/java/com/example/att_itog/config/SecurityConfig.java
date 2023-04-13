@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .requestMatchers("/admin").hasRole("ADMIN")
 
                 // эти страницы доступны всем пользователям
-                .requestMatchers("/authentication", "/registration", "/error", "/resources/**", "/static/**", "/css/**", "/js/**", "/img/**").permitAll()
+                .requestMatchers("/authentication", "/registration", "/error", "/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/product", "/product/info/{id}").permitAll()
 
                 // здесь мы указываем, что остальные страницы доступны как админу, так и простому пользователю
                 .anyRequest().hasAnyRole("USER", "ADMIN")
@@ -64,7 +64,7 @@ public class SecurityConfig {
 
                 // Указываем на какой урл необходимо направить пользователя после успешной аутентификации.
                 // Вторым аргументом указываем тру чтобы перенаправление шло в любом случае после успешной аутентификации
-                .defaultSuccessUrl("/index", true)
+                .defaultSuccessUrl("/person_account", true)
 
                 // Указываем куда необходимо перенаправить пользователя при правильной аутентификации.
                 // В запрос буден передан еррор, который будет проверяться на форме и при наличии данного объекта в запросе
