@@ -12,7 +12,9 @@
 <p th:text="'Склад: ' + ${product.getWarehouse()}"></p>
 <p th:text="'Продавец: ' + ${product.getSeller()}"></p>
 <p th:text="'Категория: ' + ${product.getCategory().getName()}"></p>
-<div th:each="img : ${product.getImageList()}"></div>
-<img th:src="'/img/' + ${img.getFileName()}">
+<div th:each="img : ${product.getImageList()}">
+  <img th:src="'/img/' + ${img.getFileName()}">
+</div>
+
 </body>
 </html>

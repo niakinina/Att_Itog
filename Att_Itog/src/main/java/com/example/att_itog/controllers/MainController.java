@@ -67,21 +67,15 @@ public class MainController {
     public String resultRegistration(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult){
        personValidator.validate(person, bindingResult);
         if(bindingResult.hasErrors()){
-           return "/registration";
+           return "registration";
        }
        personService.register(person);
         return "redirect:/person_account";
     }
 
-    @GetMapping("/person_account/product")
-    public String getAllProduct(Model model){
-        model.addAttribute("products", productService.getAllProduct());
-        return "/user/index";
-    }
 
-    @GetMapping("/person_account/product/{id}")
+    @GetMapping("/person_account/product/info/{id}")
     public String infoProduct(@PathVariable("id") int id, Model model){
-
         model.addAttribute("product", productService.getProductId(id));
         return "/user/infoProduct";
     }
