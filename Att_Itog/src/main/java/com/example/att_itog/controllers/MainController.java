@@ -32,7 +32,7 @@ public class MainController {
         this.productService = productService;
     }
 
-    @GetMapping("/person_account")
+    @GetMapping("/person account")
     public String index(Model model) {
         // Получаем объект аутентификации
         // с помощью спрингконтекстхолдер обращаемся к контексту и на нем вызываем метод аутентификации
@@ -70,11 +70,11 @@ public class MainController {
            return "registration";
        }
        personService.register(person);
-        return "redirect:/person_account";
+        return "redirect:/person account";
     }
 
 
-    @GetMapping("/person_account/product/info/{id}")
+    @GetMapping("/person account/product/info/{id}")
     public String infoProduct(@PathVariable("id") int id, Model model){
         model.addAttribute("product", productService.getProductId(id));
         return "/user/infoProduct";
