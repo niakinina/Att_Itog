@@ -28,20 +28,13 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests() // указываем что все страницы должны быть защищены аутентификацией
 
+                // указываем что страница админ доступна пользователю с ролью админ
+                .requestMatchers("/admin").hasRole("ADMIN")
+
                 // ниже указываем что не аутентифицированные пользователи могут зайти на страницу аутентификации
                 // и на объект ошибки;
                 // с помощью пермитола указываем, что не аутентифицированные пользователи могут заходить
                 // на перечисленные страницы
-                .requestMatchers("/authentication", "/error", "/registration").permitAll()
-
-                // указываем, что для всех остальных страниц необходимо вызывать метод authenticated(),
-                // который открывает форму аутентификации
-                //       .anyRequest().authenticated()
-
-
-                // указываем что страница админ доступна пользователю с ролью админ
-                .requestMatchers("/admin").hasRole("ADMIN")
-
                 // эти страницы доступны всем пользователям
                 .requestMatchers("/authentication", "/registration", "/error", "/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/product", "/product/info/{id}").permitAll()
 
@@ -82,14 +75,8 @@ public class SecurityConfig {
         this.personDetailService = personDetailService;
     }
 
-//    private final AuthenticationProvider authenticationProvider;
-
-//    public SecurityConfig(AuthenticationProvider authenticationProvider) {
-//        this.authenticationProvider = authenticationProvider;
-//    }
 
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-//        authenticationManagerBuilder.authenticationProvider(authenticationProvider);
         authenticationManagerBuilder.userDetailsService(personDetailService)
                 .passwordEncoder(getPasswordEncode());
 

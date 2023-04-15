@@ -30,7 +30,7 @@
     <label for="category">Выберите категорию товара: </label>
     <select name="category" th:field="*{category}" id="category">
         <div th:each="element : ${category}">
-            <option th:text="${element.getName()}" th:value="${element.getId()}"></option>
+            <option th:text="${element.getName()}" th:value="${element.getId()}">
         </div>
     </select>
     <div style="color: red" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
