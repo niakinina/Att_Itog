@@ -5,6 +5,41 @@
     <title>Список товаров</title>
 </head>
 <body>
+<h1>Главная страница магазина</h1>
+<h3>Сортировка, поиск, фильтрация</h3>
+<hr>
+<form method="POST" th:action="@{/product/search}">
+    <fieldset>
+        <legend>Выберите параметры для сортировки, поиска, фильтрации:</legend>
+        <label for="search">Поиск по наименованию</label>
+        <input type="text" id="search" name="search" th:value="*{value_search}">
+        <br>
+        <p>Цена, руб.</p>
+        <label for="ot">От</label>
+        <input type="text" name="ot" id="ot" th:value="*{value_price_ot}">
+        <label for="do">До</label>
+        <input type="text" name="do" id="do" th:value="*{value_price_do}">
+        <br>
+        <br>
+        <div>
+            <input type="radio" id="ascending_price" name="price">
+            <label for="ascending_price">Сортировать по возрастанию цены</label>
+            <input type="radio" id="descending_price" name="price">
+            <label for="descending_price">Сортировать по убыванию цены</label>
+            <p>Категория товаров: </p>
+            <input type="radio" id="accessories" name="contract">
+            <label for="accessories">Аксессуары</label>
+            <input type="radio" id="food" name="contract">
+            <label for="food">Корма</label>
+            <input type="radio" id="toppings" name="contract">
+            <label for="toppings">Наполнители</label>
+            <br>
+            <br>
+            <input type="submit" value="Найти">
+        </div>
+    </fieldset>
+</form>
+<hr>
 <h3>Доступные товары: </h3>
 <div th:each="product : ${products}">
     <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">

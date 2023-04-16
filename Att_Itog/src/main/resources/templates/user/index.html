@@ -43,6 +43,7 @@
         </div>
     </fieldset>
 </form>
+<hr>
 <h3>Доступные товары: </h3>
 <div th:each="product : ${products}">
     <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
