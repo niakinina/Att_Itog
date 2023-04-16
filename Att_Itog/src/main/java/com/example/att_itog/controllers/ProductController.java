@@ -34,6 +34,69 @@ public class ProductController {
     @PostMapping("/search")
     public String productSearch(@RequestParam("search") String search, @RequestParam("ot") String ot, @RequestParam("do") String Do, @RequestParam(value = "price", required = false, defaultValue = "") String price, @RequestParam(value = "contract", required = false, defaultValue = "")String contract, Model model){
         model.addAttribute("products", productService.getAllProduct());
+
+        if(!ot.isEmpty() & !Do.isEmpty()){
+            if (!price.isEmpty()){
+                if(price.equals("sorted_by_ascending_price")){
+                    if(!contract.isEmpty()){
+                        if(contract.equals("accessories")){
+                            model.addAttribute("search_product",
+                                    productRepository
+                                            .findByTitleAndCategoryOrderByPriceAsc(search.toLowerCase(),
+                                                    Float.parseFloat(ot),
+                                                    Float.parseFloat(Do), 1));
+                        } else if (contract.equals("food")){
+                            model.addAttribute("search_product",
+                                    productRepository
+                                            .findByTitleAndCategoryOrderByPriceAsc(search.toLowerCase(),
+                                                    Float.parseFloat(ot),
+                                                    Float.parseFloat(Do), 3));
+                        } else if (contract.equals("toppings")) {
+                            model.addAttribute("search_product",
+                                    productRepository
+                                            .findByTitleAndCategoryOrderByPriceAsc(search.toLowerCase(),
+                                                    Float.parseFloat(ot),
+                                                    Float.parseFloat(Do), 2));
+                        }
+                    } else {
+                        model.addAttribute("search_product",
+                                productRepository
+                                .findByTitleOrderByPriceAsc(search.toLowerCase(),
+                                        Float.parseFloat(ot),
+                                        Float.parseFloat(Do)));
+                    }
+
+                } else if(price.equals("sorted_by_descending_price")){
+                    if(!contract.isEmpty()){
+                        if(contract.equals("accessories")){
+                            model.addAttribute("search_product",
+                                    productRepository
+                                            .findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(),
+                                                    Float.parseFloat(ot),
+                                                    Float.parseFloat(Do), 1));
+                        } else if (contract.equals("food")){
+                        model.addAttribute("search_product",
+                                productRepository
+                                        .findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(),
+                                                Float.parseFloat(ot),
+                                                Float.parseFloat(Do), 3));
+                        } else if (contract.equals("toppings")) {
+                            model.addAttribute("search_product",
+                                    productRepository
+                                            .findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(),
+                                                    Float.parseFloat(ot),
+                                                    Float.parseFloat(Do), 2));
+                        }
+                    }
+                }
+            } else {
+                model.addAttribute("search_product", productRepository
+                        .findByTitleAndPriceGreaterThanEqualAndPriceLessThanEqual(search.toLowerCase(),
+                                Float.parseFloat(ot),
+                                Float.parseFloat(Do)));
+            }
+        }
+
         model.addAttribute("value_search", search);
         model.addAttribute("value_price_ot", ot);
         model.addAttribute("value_price_do", Do);

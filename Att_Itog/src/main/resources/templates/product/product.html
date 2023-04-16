@@ -22,9 +22,9 @@
         <br>
         <br>
         <div>
-            <input type="radio" id="ascending_price" name="price">
+            <input type="radio" id="ascending_price" name="price" value="sorted_by_ascending_price">
             <label for="ascending_price">Сортировать по возрастанию цены</label>
-            <input type="radio" id="descending_price" name="price">
+            <input type="radio" id="descending_price" name="price" value="sorted_by_descending_price">
             <label for="descending_price">Сортировать по убыванию цены</label>
             <p>Категория товаров: </p>
             <input type="radio" id="accessories" name="contract">
@@ -39,6 +39,15 @@
         </div>
     </fieldset>
 </form>
+<hr>
+<h3>Результат поиска, сортировки и фильтрации</h3>
+<div th:each="product : ${search_product}">
+    <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
+    <br>
+    <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+    <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+    <hr>
+</div>
 <hr>
 <h3>Доступные товары: </h3>
 <div th:each="product : ${products}">
