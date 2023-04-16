@@ -36,7 +36,8 @@ public class SecurityConfig {
                 // с помощью пермитола указываем, что не аутентифицированные пользователи могут заходить
                 // на перечисленные страницы
                 // эти страницы доступны всем пользователям
-                .requestMatchers("/authentication", "/registration", "/error", "/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/product", "/product/info/{id}").permitAll()
+                .requestMatchers("/authentication", "/registration", "/error", "/resources/**", "/static/**",
+                        "/css/**", "/js/**", "/img/**", "/images/**", "/product", "/product/info/{id}", "/product/search").permitAll()
 
                 // здесь мы указываем, что остальные страницы доступны как админу, так и простому пользователю
                 .anyRequest().hasAnyRole("USER", "ADMIN")
@@ -64,7 +65,7 @@ public class SecurityConfig {
 
                 .and()
                 // перенаправление пользователя на страницу аутентификации
-                .logout().logoutUrl("/logout").logoutSuccessUrl("/authentication");
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/product");
 
         return http.build();
 

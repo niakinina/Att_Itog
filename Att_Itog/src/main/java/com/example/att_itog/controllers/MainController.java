@@ -52,12 +52,6 @@ public class MainController {
 
     }
 
-    //    @GetMapping("/registration")
-    //    public String registration(Model model){
-    //        model.addAttribute("person", new Person());
-    //        return "registration";
-    //    }
-
     @GetMapping("/registration")
     public String registration(@ModelAttribute("person") Person person){
         return "registration";

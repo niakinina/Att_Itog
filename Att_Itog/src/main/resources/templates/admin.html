@@ -6,9 +6,18 @@
 </head>
 <body>
 <h1>Личный кабинет администратора</h1>
-<form method="post" action="/logout">
+<form method="post" th:action="@{/logout}">
     <button type="submit">Выйти из личного кабинета</button>
 </form>
+<!--Это мысли про смену роли пользователя
+<div>
+    <fieldset><legend>Работа с пользователями</legend>
+        <div th:each="user : ${users}">
+            <p th:text="'login' + ${user.getLogin()}'"
+        </div>
+
+    </fieldset>
+</div>-->
 <a href="admin/product/add">Добавить товар</a>
 <hr>
 <div th:each="product : ${products}">

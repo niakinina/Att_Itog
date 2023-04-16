@@ -5,16 +5,17 @@
     <title>Главная страница</title>
 </head>
 <body>
-<form method="post" action="/logout">
+<form method="post" th:action="@{/logout}">
     <button type="submit">Выйти из личного кабинета</button>
 </form>
+
 <h1>Главная страница магазина</h1>
 <h3>Сортировка, поиск, фильтрация</h3>
     <hr>
-<form th:method="POST" th:action="@{/product/search}">
+<form method="POST" th:action="@{/product/search}">
     <fieldset>
         <legend>Выберите параметры для сортировки, поиска, фильтрации:</legend>
-        <label for="search" th:>Поиск по наименованию</label>
+        <label for="search">Поиск по наименованию</label>
         <input type="text" id="search" name="search">
         <br>
         <p>Цена, руб.</p>
