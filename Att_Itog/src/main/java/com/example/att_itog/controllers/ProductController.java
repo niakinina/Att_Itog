@@ -101,6 +101,8 @@ public class ProductController {
                                 Float.parseFloat(ot),
                                 Float.parseFloat(Do)));
             }
+        } else {
+            model.addAttribute("search_product", productRepository.findByTitleContainingIgnoreCase(search));
         }
 
         model.addAttribute("value_search", search);
