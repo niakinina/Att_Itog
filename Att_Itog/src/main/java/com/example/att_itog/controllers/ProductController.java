@@ -87,6 +87,12 @@ public class ProductController {
                                                     Float.parseFloat(ot),
                                                     Float.parseFloat(Do), 2));
                         }
+                    } else {
+                        model.addAttribute("search_product",
+                                productRepository
+                                        .findByTitleOrderByPriceDesc(search.toLowerCase(),
+                                                Float.parseFloat(ot),
+                                                Float.parseFloat(Do)));
                     }
                 }
             } else {
