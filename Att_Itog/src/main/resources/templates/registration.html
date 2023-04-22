@@ -16,6 +16,23 @@
     <input type="password" th:field="*{password}" id="password">
     <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
     <br>
+    <br>
+    <label for="nameUser">Укажите Ваше имя:</label>
+    <input type="text" th:field="*{nameUser}" id="nameUser"><br>
+    <div style="color: red" th:if="${#fields.hasErrors('nameUser')}" th:errors="*{nameUser}"></div>
+    <br>
+    <label for="deliveryAddress">Укажите адрес доставки:</label>
+    <input type="text" th:field="*{deliveryAddress}" id="deliveryAddress"><br>
+    <div style="color: red" th:if="${#fields.hasErrors('deliveryAddress')}" th:errors="*{deliveryAddress}"></div>
+    <br>
+    <label for="deliveryAddress">Номер вашего телефона:</label>
+    <input type="text" th:field="*{phoneNumber}" id="phoneNumber"><br>
+    <div style="color: red" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+    <br>
+    <label for="email">Ваше e-mail:</label>
+    <input type="text" th:field="*{email}" id="email"><br>
+    <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+    <br>
     <input type="submit" value="Зарегистрироваться">
 </form>
 <a href="/authentication">Вход</a>

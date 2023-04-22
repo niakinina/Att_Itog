@@ -1,11 +1,9 @@
 package com.example.att_itog.controllers;
 
 import com.example.att_itog.enumm.Status;
-import com.example.att_itog.models.Cart;
-import com.example.att_itog.models.Order;
-import com.example.att_itog.models.Person;
-import com.example.att_itog.models.Product;
+import com.example.att_itog.models.*;
 import com.example.att_itog.repositories.CartRepository;
+import com.example.att_itog.repositories.OrderPersonRepository;
 import com.example.att_itog.repositories.OrderRepository;
 import com.example.att_itog.repositories.ProductRepository;
 import com.example.att_itog.security.PersonDetails;
@@ -40,13 +38,16 @@ public class MainController {
 
     private final OrderRepository orderRepository;
 
-    public MainController(ProductRepository productRepository, PersonValidator personValidator, PersonService personService, ProductService productService, CartRepository cartRepository, OrderRepository orderRepository) {
+    private final OrderPersonRepository orderPersonRepository;
+
+    public MainController(ProductRepository productRepository, PersonValidator personValidator, PersonService personService, ProductService productService, CartRepository cartRepository, OrderRepository orderRepository, OrderPersonRepository orderPersonRepository) {
         this.productRepository = productRepository;
         this.personValidator = personValidator;
         this.personService = personService;
         this.productService = productService;
         this.cartRepository = cartRepository;
         this.orderRepository = orderRepository;
+        this.orderPersonRepository = orderPersonRepository;
     }
 
     @GetMapping("/person account")
@@ -57,13 +58,11 @@ public class MainController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         String role = personDetails.getPerson().getRole();
+        String nameUser = personDetails.getPerson().getNameUser();
         if(role.equals("ROLE_ADMIN")){
             return "redirect:/admin";
         }
-//        System.out.println(personDetails.getPerson());
-//        System.out.println("ID пользователя: " + personDetails.getPerson().getId());
-//        System.out.println("Логин пользователя: " + personDetails.getPerson().getLogin());
-//        System.out.println("Пароль пользователя: " + personDetails.getPerson().getPassword());
+        model.addAttribute("personName", nameUser);
         model.addAttribute("products", productService.getAllProduct());
         return "/user/index";
 
@@ -81,7 +80,7 @@ public class MainController {
            return "registration";
        }
        personService.register(person);
-        return "redirect:/person account";
+       return "redirect:/person account";
     }
 
 
@@ -94,82 +93,49 @@ public class MainController {
     @PostMapping("/person account/product/search")
     public String productSearch(@RequestParam("search") String search, @RequestParam("ot") String ot, @RequestParam("do") String Do, @RequestParam(value = "price", required = false, defaultValue = "") String price, @RequestParam(value = "contract", required = false, defaultValue = "")String contract, Model model){
         model.addAttribute("products", productService.getAllProduct());
-
         if(!ot.isEmpty() & !Do.isEmpty()){
             if (!price.isEmpty()){
                 if(price.equals("sorted_by_ascending_price")){
                     if(!contract.isEmpty()){
                         if(contract.equals("accessories")){
-                            model.addAttribute("search_product",
-                                    productRepository
-                                            .findByTitleAndCategoryOrderByPriceAsc(search.toLowerCase(),
-                                                    Float.parseFloat(ot),
-                                                    Float.parseFloat(Do), 1));
+                            model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPriceAsc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do), 1));
                         } else if (contract.equals("food")){
-                            model.addAttribute("search_product",
-                                    productRepository
-                                            .findByTitleAndCategoryOrderByPriceAsc(search.toLowerCase(),
-                                                    Float.parseFloat(ot),
-                                                    Float.parseFloat(Do), 3));
+                            model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPriceAsc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do), 3));
                         } else if (contract.equals("toppings")) {
-                            model.addAttribute("search_product",
-                                    productRepository
-                                            .findByTitleAndCategoryOrderByPriceAsc(search.toLowerCase(),
-                                                    Float.parseFloat(ot),
-                                                    Float.parseFloat(Do), 2));
+                            model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPriceAsc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do), 2));
                         }
                     } else {
-                        model.addAttribute("search_product",
-                                productRepository
-                                        .findByTitleOrderByPriceAsc(search.toLowerCase(),
-                                                Float.parseFloat(ot),
-                                                Float.parseFloat(Do)));
+                        model.addAttribute("search_product", productRepository.findByTitleOrderByPriceAsc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do)));
                     }
-
                 } else if(price.equals("sorted_by_descending_price")){
                     if(!contract.isEmpty()){
                         if(contract.equals("accessories")){
-                            model.addAttribute("search_product",
-                                    productRepository
-                                            .findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(),
-                                                    Float.parseFloat(ot),
-                                                    Float.parseFloat(Do), 1));
+                            model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do), 1));
                         } else if (contract.equals("food")){
-                            model.addAttribute("search_product",
-                                    productRepository
-                                            .findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(),
-                                                    Float.parseFloat(ot),
-                                                    Float.parseFloat(Do), 3));
+                            model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do), 3));
                         } else if (contract.equals("toppings")) {
-                            model.addAttribute("search_product",
-                                    productRepository
-                                            .findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(),
-                                                    Float.parseFloat(ot),
-                                                    Float.parseFloat(Do), 2));
+                            model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do), 2));
                         }
                     } else {
-                        model.addAttribute("search_product",
-                                productRepository
-                                        .findByTitleOrderByPriceDesc(search.toLowerCase(),
-                                                Float.parseFloat(ot),
-                                                Float.parseFloat(Do)));
+                        model.addAttribute("search_product", productRepository.findByTitleOrderByPriceDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do)));
                     }
                 }
             } else {
-                model.addAttribute("search_product", productRepository
-                        .findByTitleAndPriceGreaterThanEqualAndPriceLessThanEqual(search.toLowerCase(),
-                                Float.parseFloat(ot),
-                                Float.parseFloat(Do)));
+                model.addAttribute("search_product", productRepository.findByTitleAndPriceGreaterThanEqualAndPriceLessThanEqual(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do)));
             }
         } else {
-            model.addAttribute("search_product", productRepository.findByTitleContainingIgnoreCase(search));
+            model.addAttribute("search_product", productRepository.findByTitleContainingIgnoreCase(search.toLowerCase()));
         }
-
         model.addAttribute("value_search", search);
         model.addAttribute("value_price_ot", ot);
         model.addAttribute("value_price_do", Do);
-        return "/user/index";
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication.isAuthenticated()){
+            PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+            model.addAttribute("personName", personDetails.getPerson().getNameUser());
+            return "/user/index";
+        }
+        return "product/product";
     }
 
     @GetMapping("/cart/add/{id}")
@@ -185,7 +151,7 @@ public class MainController {
         int id_person = personDetails.getPerson().getId();
         Cart cart = new Cart(id_person, product.getId());
         cartRepository.save(cart);
-        return "redirect:/cart";
+        return "redirect:/person account";
     }
 
     @GetMapping("/cart")
@@ -219,7 +185,11 @@ public class MainController {
     }
 
     @GetMapping("/cart/delete/{id}")
-    public String deleteProductFromCart(Model model, @PathVariable("id") int id){
+    public String deleteProductFromCart(@PathVariable("id") int id, Model model){
+
+        // Получаем id продукта, который хотим поместить в корзину
+        Product product = productService.getProductId(id);
+
         // Извлекаем объект аутентифицированного пользователя
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
@@ -240,7 +210,7 @@ public class MainController {
     }
 
     @GetMapping("/order/create")
-    public String order(){
+    public String order(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
@@ -269,8 +239,11 @@ public class MainController {
             orderRepository.save(newOrder);
             cartRepository.deleteCartByProductId(product.getId());
         }
+        if (price>0){
+            OrderPerson newOrderPerson = new OrderPerson(uuid, personDetails.getPerson(),price,Status.Оформлен);
+            orderPersonRepository.save(newOrderPerson);
+        }
         return "redirect:/orders";
-
     }
 
     @GetMapping("/orders")
@@ -279,6 +252,16 @@ public class MainController {
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         List<Order> orderList = orderRepository.findByPerson(personDetails.getPerson());
         model.addAttribute("orders", orderList);
+        return "/user/orders";
+    }
+    @GetMapping("/orders/delete")
+    public String orderDelete(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //получаем пользователя который аутентифицыровался
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        int id_person = personDetails.getPerson().getId(); //получаем id-шник аутентифицированного пользователя
+        orderRepository.deleteOrdersByPersonId(id_person);//удаляем лист заказов по id пользователя
+        List<Order> orderList = orderRepository.findByPerson(personDetails.getPerson()); //получаем лист заказов по пользователю
+        model.addAttribute("orders",orderList);//отправляем в html-ку пустой лист
         return "/user/orders";
     }
 

@@ -34,7 +34,7 @@ public class Person {
 
     @NotEmpty(message = "Адрес доставки")
     @Column(name = "delivery_address")
-    private String delivery_address;
+    private String deliveryAddress;
 
     @NotEmpty(message = "Телефон")
     @Column(name = "phone_number")
@@ -92,12 +92,12 @@ public class Person {
         this.nameUser = nameUser;
     }
 
-    public String getDelivery_address() {
-        return delivery_address;
+    public String getDeliveryAddress() {
+        return deliveryAddress;
     }
 
-    public void setDelivery_address(String delivery_address) {
-        this.delivery_address = delivery_address;
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
     }
 
     public String getPhoneNumber() {
