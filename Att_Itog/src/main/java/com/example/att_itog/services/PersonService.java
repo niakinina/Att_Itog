@@ -32,4 +32,9 @@ public class PersonService {
         person.setRole("ROLE_USER");
         personRepository.save(person);
     }
+
+    public Person getPersonId(int id){
+        Optional<Person> optionalPerson = personRepository.findById(id);
+        return optionalPerson.orElse(null);
+    }
 }

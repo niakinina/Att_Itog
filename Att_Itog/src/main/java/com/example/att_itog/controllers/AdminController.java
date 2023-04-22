@@ -1,10 +1,7 @@
 package com.example.att_itog.controllers;
 
 import com.example.att_itog.enumm.Status;
-import com.example.att_itog.models.Category;
-import com.example.att_itog.models.Image;
-import com.example.att_itog.models.OrderPerson;
-import com.example.att_itog.models.Product;
+import com.example.att_itog.models.*;
 import com.example.att_itog.repositories.CategoryRepository;
 import com.example.att_itog.repositories.OrderPersonRepository;
 import com.example.att_itog.repositories.PersonRepository;
@@ -154,6 +151,30 @@ public class AdminController {
         return "redirect:/admin";
     }
 
+    @GetMapping("admin/product/delete/{id}")
+    public String deleteProduct(@PathVariable("id") int id) {
+        productService.deleteProduct(id);
+        return "redirect:/admin";
+    }
+
+    @GetMapping("admin/product/edit/{id}")
+    public String editProduct(Model model, @PathVariable("id") int id) {
+        model.addAttribute("product", productService.getProductId(id));
+        model.addAttribute("category", categoryRepository.findAll());
+        return "product/editProduct";
+
+    }
+
+    @PostMapping("admin/product/edit/{id}")
+    public String editProduct(@ModelAttribute("product") @Valid Product product, BindingResult bindingResult, @PathVariable("id") int id, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("category", categoryRepository.findAll());
+            return "product/editProduct";
+        }
+        productService.updateProduct(id, product);
+        return "redirect:/admin";
+    }
+
     // Данный метод позволяет вывести всех пользователей и продукты в кабинет админа
     @GetMapping("/admin")
     public String admin(Model model) {
@@ -180,34 +201,37 @@ public class AdminController {
         return "redirect:/admin/view_orders/{id}";
     }
 
-    public String searchOrderByLastChars
 
+    @PostMapping("/admin/view_orders/search_order")
+    public String searchOrderByLastChars(Model model, @RequestParam("search_order") String searchOrder){
+        model.addAttribute("users", personRepository.findAll());
+        model.addAttribute("products", productService.getAllProduct());
+        model.addAttribute("ordersfind", orderPersonService.findByNumberEndingWithIgnoreCase(searchOrder));
+        return "/admin";
+    }
 
-
-    @GetMapping("admin/product/delete/{id}")
-    public String deleteProduct(@PathVariable("id") int id) {
-        productService.deleteProduct(id);
+    @GetMapping("/admin/view_orders/admin/delete_order/{idOrder}")
+    public String deletePersonOrderById(@PathVariable("idOrder") int idOrder, Model model){
+        orderPersonRepository.deletePersonOrderById(idOrder);
         return "redirect:/admin";
     }
 
-    @GetMapping("admin/product/edit/{id}")
-    public String editProduct(Model model, @PathVariable("id") int id) {
-        model.addAttribute("product", productService.getProductId(id));
-        model.addAttribute("category", categoryRepository.findAll());
-        return "product/editProduct";
-
-    }
-
-    @PostMapping("admin/product/edit/{id}")
-    public String editProduct(@ModelAttribute("product") @Valid Product product, BindingResult bindingResult, @PathVariable("id") int id, Model model) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("category", categoryRepository.findAll());
-            return "product/editProduct";
+    public String changeRoleById(@PathVariable("id") int id, Model model){
+        Person person = personService.getPersonId(id);
+        String role_person = person.getRole();
+        if (!person.getLogin().equals("admin")) {
+            if (!role_person.equals("ROLE_USER")){
+                role_person = "ROLE_USER";
+            } else {
+                role_person = "ROLE_ADMIN";
+            }
         }
-        productService.updateProduct(id, product);
+        person.setRole(role_person);
+        personRepository.save(person);
+        model.addAttribute("person");
         return "redirect:/admin";
-    }
 
+    }
 
 }
 

@@ -36,6 +36,14 @@ public class Person {
     @Column(name = "delivery_address")
     private String delivery_address;
 
+    @NotEmpty(message = "Телефон")
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @NotEmpty(message = "Электронная почта")
+    @Column(name = "email")
+    private String email;
+
 
     @ManyToMany()
     @JoinTable(name = "product_cart", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
@@ -74,6 +82,38 @@ public class Person {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getNameUser() {
+        return nameUser;
+    }
+
+    public void setNameUser(String nameUser) {
+        this.nameUser = nameUser;
+    }
+
+    public String getDelivery_address() {
+        return delivery_address;
+    }
+
+    public void setDelivery_address(String delivery_address) {
+        this.delivery_address = delivery_address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
