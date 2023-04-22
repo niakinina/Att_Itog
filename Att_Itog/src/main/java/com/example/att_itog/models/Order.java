@@ -15,10 +15,10 @@ public class Order {
 
     private String number;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(optional = false)
     private Product product;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(optional = false)
     private Person person;
 
     private int count;

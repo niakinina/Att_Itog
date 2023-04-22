@@ -4,6 +4,9 @@ import com.example.att_itog.models.Category;
 import com.example.att_itog.models.Image;
 import com.example.att_itog.models.Product;
 import com.example.att_itog.repositories.CategoryRepository;
+import com.example.att_itog.services.OrderPersonService;
+import com.example.att_itog.services.OrderService;
+import com.example.att_itog.services.PersonService;
 import com.example.att_itog.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,15 +24,24 @@ import java.util.UUID;
 @Controller
 public class AdminController {
 
-    private final ProductService productService;
+
 
     @Value("${upload.path}")
     private String uploadPath;
     private final CategoryRepository categoryRepository;
+    private final ProductService productService;
+    private final PersonService personService;
 
-    public AdminController(ProductService productService, CategoryRepository categoryRepository) {
+    private final OrderService orderService;
+
+    private final OrderPersonService orderPersonService;
+
+    public AdminController(ProductService productService, CategoryRepository categoryRepository, PersonService personService, OrderService orderService, OrderPersonService orderPersonService) {
         this.productService = productService;
         this.categoryRepository = categoryRepository;
+        this.personService = personService;
+        this.orderService = orderService;
+        this.orderPersonService = orderPersonService;
     }
 
     @GetMapping("admin/product/add")
@@ -130,6 +142,7 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String admin(Model model){
+        model.addAttribute("users", personRepository.findAll());
         model.addAttribute("products", productService.getAllProduct());
         return "admin";
     }
