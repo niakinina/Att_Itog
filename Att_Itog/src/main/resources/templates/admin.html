@@ -10,11 +10,19 @@
     <button type="submit">Выйти из личного кабинета</button>
 </form>
 <br>
-<!--Это мысли про смену роли пользователя
 <div>
     <fieldset><legend>Работа с пользователями</legend>
-        <div th:each="user : ${users}">
-            <p th:text="'login' + ${user.getLogin()}'"
+        <table>
+            <tr><th>Логин</th><th>Имя</th><th>Статус</th><th>Email</th><th>Телефон</th></tr>
+            <div th:each="user : ${users}">
+                <tr>
+                    <td th:text="'login' + ${user.getLogin()}'"></td>
+                    <td th:text="'login' + ${user.getNameUser()}'"></td>
+                    <td th:text="'login' + ${user.getLogin()}'"></td>
+                    <td th:text="'login' + ${user.getLogin()}'"></td>
+                    <td th:text="'login' + ${user.getLogin()}'"></td>
+                </tr>
+
         </div>
 
     </fieldset>

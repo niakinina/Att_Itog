@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name="Person")
+@Table(name="person")
 public class Person {
     @Id
     @Column(name = "id")
@@ -27,6 +27,15 @@ public class Person {
 
     @Column(name = "role")
     private String role;
+
+    @NotEmpty(message = "Имя")
+    @Column(name = "name_user")
+    private String nameUser;
+
+    @NotEmpty(message = "Адрес доставки")
+    @Column(name = "delivery_address")
+    private String delivery_address;
+
 
     @ManyToMany()
     @JoinTable(name = "product_cart", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
