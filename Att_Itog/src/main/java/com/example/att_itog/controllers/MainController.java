@@ -254,16 +254,6 @@ public class MainController {
         model.addAttribute("orders", orderList);
         return "/user/orders";
     }
-    @GetMapping("/orders/delete")
-    public String orderDelete(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //получаем пользователя который аутентифицыровался
-        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
-        int id_person = personDetails.getPerson().getId(); //получаем id-шник аутентифицированного пользователя
-        orderRepository.deleteOrdersByPersonId(id_person);//удаляем лист заказов по id пользователя
-        List<Order> orderList = orderRepository.findByPerson(personDetails.getPerson()); //получаем лист заказов по пользователю
-        model.addAttribute("orders",orderList);//отправляем в html-ку пустой лист
-        return "/user/orders";
-    }
 
 }
 

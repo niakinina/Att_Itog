@@ -10,9 +10,11 @@ import java.time.LocalDateTime;
 public class Order {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "number")
     private String number;
 
     @ManyToOne(optional = false)
@@ -21,10 +23,16 @@ public class Order {
     @ManyToOne(optional = false)
     private Person person;
 
+    @Column(name = "count")
     private int count;
+
+    @Column(name = "price")
     private float price;
+
+    @Column(name = "date_time")
     private LocalDateTime dateTime;
 
+    @Column(name = "status")
     private Status status;
 
     @PrePersist

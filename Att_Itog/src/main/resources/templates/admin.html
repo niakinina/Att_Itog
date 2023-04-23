@@ -64,8 +64,7 @@
                         </td>
                         <td><input type="text" readonly th:value="${#temporals.format(order.getDateTime(),'dd-MM-yyyy')}"></td>
                         <td><input type="text" readonly th:value="${order.getPrice()}"></td>
-                        <td>
-                            <a th:href="@{admin/view_orders/admin/delete_order/{idOrder}(idOrder=${order.getId()})}">Удалить</a>
+
                         </td>
                         <td><input type="submit" value="Сохранить"></td>
                     </form>
