@@ -37,7 +37,7 @@ public class SecurityConfig {
                 // на перечисленные страницы
                 // эти страницы доступны всем пользователям
                 .requestMatchers("/authentication", "/registration", "/error", "/resources/**", "/static/**",
-                        "/css/**", "/js/**", "/img/**", "/images/**", "/product", "/product/info/{id}", "/product/search, /person account", "/user").permitAll()
+                        "/css/**", "/js/**", "/img/**", "/images/**", "/product", "/product/info/{id}", "/product/search", "/person account", "/user").permitAll()
 
                 // здесь мы указываем, что остальные страницы доступны как админу, так и простому пользователю
                 .anyRequest().hasAnyRole("USER", "ADMIN")
