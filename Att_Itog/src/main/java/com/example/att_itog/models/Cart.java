@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 public class Cart {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 

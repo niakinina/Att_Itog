@@ -216,6 +216,8 @@ public class AdminController {
         return "redirect:/admin";
     }
 
+    // Данная модель позволяет сменить роль (у самого админа роль не меняется)
+    @GetMapping("/admin/edit_person/{id}")
     public String changeRoleById(@PathVariable("id") int id, Model model){
         Person person = personService.getPersonId(id);
         String role_person = person.getRole();
