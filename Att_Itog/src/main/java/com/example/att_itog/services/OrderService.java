@@ -2,6 +2,8 @@ package com.example.att_itog.services;
 
 import com.example.att_itog.models.Order;
 import com.example.att_itog.repositories.OrderRepository;
+import com.example.att_itog.repositories.PersonRepository;
+import com.example.att_itog.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,15 +17,14 @@ import java.util.Optional;
 public class OrderService {
     private final OrderRepository orderRepository;
 
-    public Order getAllOrders(int id, Order order){
-        order.setId(id);
-        orderRepository.save(order);
-        return order;
-    }
+    private final ProductRepository productRepository;
 
-    @Autowired
-    public OrderService(OrderRepository orderRepository) {
+    private final PersonRepository personRepository;
+
+    public OrderService(OrderRepository orderRepository, ProductRepository productRepository, PersonRepository personRepository) {
         this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
+        this.personRepository = personRepository;
     }
 
     // Данный метод возвращает все заказы
@@ -32,19 +33,11 @@ public class OrderService {
 
     // Данный метод позволяет обновить данные пользователя
     @Transactional
-    public void updateOrder(int id, Order order) {
-        order.setId(id);
-        orderRepository.save(order);
-    }
+    public void deleteOrder(int id) { orderRepository.deleteById(id); }
 
     @Transactional
-    public void updateOrderStatus(Order order) {
+    public void editStatusOrder(int id, Order order){
+        order.setId(id);
         orderRepository.save(order);
-    }
-
-    //    @Transactional
-    public Order getOrderById(int id) {
-        Optional<Order> optionalOrder = orderRepository.findById(id);
-        return optionalOrder.orElse(null);
     }
 }

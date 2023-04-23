@@ -37,7 +37,7 @@ public class SecurityConfig {
                 // на перечисленные страницы
                 // эти страницы доступны всем пользователям
                 .requestMatchers("/authentication", "/registration", "/error", "/resources/**", "/static/**",
-                        "/css/**", "/js/**", "/img/**", "/images/**", "/product", "/product/info/{id}", "/product/search").permitAll()
+                        "/css/**", "/js/**", "/img/**", "/images/**", "/product", "/product/info/{id}", "/product/search, /person account", "/user").permitAll()
 
                 // здесь мы указываем, что остальные страницы доступны как админу, так и простому пользователю
                 .anyRequest().hasAnyRole("USER", "ADMIN")
@@ -46,7 +46,8 @@ public class SecurityConfig {
                 .and()
 
                 // указываем какой урл запрос будет отправляться при заходе на защищенные страницы
-                .formLogin().loginPage("/authentication")
+                //.formLogin().loginPage("/authentication")
+                .formLogin().loginPage("/product")
 
                 // указываем на какой адрес будут отправляться данные с формы.
                 // Нам уже не нужно будет создавать метод в контроллере и обрабатывать данные с формы.

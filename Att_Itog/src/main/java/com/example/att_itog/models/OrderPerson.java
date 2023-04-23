@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public class OrderPerson {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String number;
@@ -17,10 +18,13 @@ public class OrderPerson {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Person person;
 
+    @Column(name = "price")
     private float price;
 
+    @Column(name = "status")
     private Status status;
 
+    @Column(name = "date_time")
     private LocalDateTime dateTime;
 
     @PrePersist
