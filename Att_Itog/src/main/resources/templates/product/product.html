@@ -5,6 +5,7 @@
     <title>Список товаров</title>
     <link th:href="@{/css/product.css}">
 </head>
+
 <style>
 	body{
 		background-color: papayawhip;
@@ -12,22 +13,35 @@
 		}
 	
 	.container {
-
-		display: flex;
+        display: flex;
 		flex-wrap: wrap;
 		padding: 20px;
         margin: 20px;
+        align-items: center;
+        justify-content: center;
 	}
-	.tovar {
+    .tovar {
+        border: black solid 1px;
+        width: 300px;
+
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        background-color:white;
+        margin: 20px;}
+
+    .tovar:hover {
 		border: black solid 1px;
 		width: 300px;
-		box-shadow:0px -50px 100px pink;
+		box-shadow: 0px -50px 100px pink;
 		padding: 10px;
 		display: flex;
 		flex-direction: column;
 		text-align: center;
 		background-color:white;
         margin: 20px;}
+
 	.image{
 		display: flex;
 		justify-content: center;
@@ -37,10 +51,8 @@
 		text-decoration: none;
 		font-size: 20px;
 	}
-
-
-
 </style>
+
 <body>
 <h1>Главная страница магазина</h1>
 <h3>Сортировка, поиск, фильтрация</h3>
@@ -90,7 +102,7 @@
 <div class= "container">
 	<div class="tovar" th:each="product : ${products}">
 		<div class="image">
-			<img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="100px">
+			<img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="200px">
 		</div>
     <br>
 	<a class="name" th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
