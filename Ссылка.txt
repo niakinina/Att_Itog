@@ -1,0 +1,9 @@
+Сссылка на гитхаб:
+
+https://github.com/niakinina/Att_Itog.git
+
+
+Логины и пароли:
+
+Администратор: admin	admin
+Пользователь: user5	pass5
