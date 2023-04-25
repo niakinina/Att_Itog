@@ -4,30 +4,117 @@
     <meta charset="UTF-8">
     <title>Личный кабинет администратора</title>
 </head>
+
+<style>
+    body{
+        background-color: papayawhip;
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 20px;
+        margin: 20px;
+        align-items: center;
+        justify-content: center;
+    }
+    .tovar {
+        border: black solid 1px;
+        width: 80%;
+
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        background-color:white;
+        margin: 40px;}
+
+    .tovar:hover {
+        border: black solid 1px;
+        width: 80%;
+        box-shadow: 0px -50px 100px pink;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        background-color:white;
+        margin: 40px;}
+
+    .image{
+        display: flex;
+        justify-content: center;
+    }
+    .name{
+        color: black;
+        text-decoration: none;
+        font-size: 20px;
+    }
+    .title{
+        display: flex;
+        justify-content: center;
+    }
+    .flex-container{
+        display:flex;
+        padding: 15px;
+        background-color: white;
+        border: black solid 1px;
+        justify-content: center;
+    }
+    .flex-container>div{
+        padding:20px;
+
+    }
+    .picture{
+        width: 100%;
+        float: right;
+    }
+
+
+</style>
+
+
+
 <body>
+
+<div class="flex-container">
+    <form method="post" th:action="@{/logout}">
+        <button type="submit">Выйти из личного кабинета</button>
+    </form>
+</div>
+
+<div class="title">
 <h1>Личный кабинет администратора</h1>
-<form method="post" th:action="@{/logout}">
-    <button type="submit">Выйти из личного кабинета</button>
-</form>
+</div>
+
+
 <br>
-<div>
-    <fieldset><legend>Работа с пользователями</legend>
-        <table>
-            <tr><th>Логин</th><th>Имя</th><th>Статус</th><th>Email</th><th>Телефон</th></tr>
-            <div th:each="user : ${users}">
-                <tr>
-                    <td th:text="${user.getLogin()}"></td>
-                    <td th:text="${user.getNameUser()}"></td>
-                    <td th:text="${user.getRole()}"></td>
-                    <td th:text="${user.getEmail()}"></td>
-                    <td th:text="${user.getPhoneNumber()}"></td>
-                    <td><form th:action="@{/admin/edit_person/{id}(id=${user.getId()})}"><button type="submit" th:name="action" value="Сменить роль">Сменить роль</button></form></td>
-                    <td><form th:action="@{/admin/view_orders/{id}(id=${user.getId()})}"><button type="submit" th:name="action" value="История заказов">История заказов</button></form></td>
-                </tr>
-            </div>
-        </table>
-    </fieldset>
-    <fieldset><legend>Поиск заказа:</legend>
+
+<div class="flex-container">
+    <div class="sort">
+        <fieldset><legend>Работа с пользователями</legend>
+            <table>
+                <tr><th>Логин</th><th>Имя</th><th>Статус</th><th>Email</th><th>Телефон</th></tr>
+                <div th:each="user : ${users}">
+                    <tr>
+                        <td th:text="${user.getLogin()}"></td>
+                        <td th:text="${user.getNameUser()}"></td>
+                        <td th:text="${user.getRole()}"></td>
+                        <td th:text="${user.getEmail()}"></td>
+                        <td th:text="${user.getPhoneNumber()}"></td>
+                        <td><form th:action="@{/admin/edit_person/{id}(id=${user.getId()})}"><button type="submit" th:name="action" value="Сменить роль">Сменить роль</button></form></td>
+                        <td><form th:action="@{/admin/view_orders/{id}(id=${user.getId()})}"><button type="submit" th:name="action" value="История заказов">История заказов</button></form></td>
+                    </tr>
+                </div>
+            </table>
+        </fieldset>
+    </div>
+    <div>
+        <img class="picture" th:src="@{/images/three.jpeg}">
+    </div>
+</div>
+
+<div class="flex-container">
+    <fieldset width="80%"><legend>Поиск заказа:</legend>
         <form th:method="POST" th:action="@{/admin/view_orders/search_order}">
             <label for="search_order">Укажите последние символы заказа:</label>
             <input type="text" th:name="search_order" th:value="${search_order}" id="search_order">
@@ -48,7 +135,8 @@
         </table>
     </fieldset>
 </div>
-<div>
+
+<div class="flex-container">
     <fieldset><legend>Работа с заказами:</legend>
         <table>
             <tr><th>Номер заказа</th><th>Статус заказа</th><th>Дата заказа</th><th>Стоимость заказа</th></tr>
@@ -73,19 +161,28 @@
         </table>
     </fieldset>
 </div>
-<a href="admin/product/add">Добавить товар</a>
+
+
 <hr>
-<div th:each="product : ${products}">
-    <p th:text="'Наименование: ' + ${product.getTitle()}"></p>
-    <p th:text="'Описание: ' + ${product.getDescription()}"></p>
-    <p th:text="'Цена: ' + ${product.getPrice()}"></p>
-    <p th:text="'Склад: ' + ${product.getWarehouse()}"></p>
-    <p th:text="'Продавец: ' + ${product.getSeller()}"></p>
-    <p th:text="'Категория: ' + ${product.getCategory().getName()}"></p>
-    <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
-    <br>
-    <a th:href="@{/admin/product/edit/{id}(id=${product.getId()})}">Редактирование товара</a>
-    <a th:href="@{/admin/product/delete/{id}(id=${product.getId()})}">Удаление товара</a>
+<div class="title">
+<a href="admin/product/add" font-size="20pt">Добавить товар</a>
+</div>
+
+<div class="container">
+    <div class="tovar" th:each="product : ${products}">
+        <b><p th:text="'Наименование: ' + ${product.getTitle()}"></p></b>
+        <p th:text="'Описание: ' + ${product.getDescription()}"></p>
+        <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+        <p th:text="'Склад: ' + ${product.getWarehouse()}"></p>
+        <p th:text="'Продавец: ' + ${product.getSeller()}"></p>
+        <p th:text="'Категория: ' + ${product.getCategory().getName()}"></p>
+        <div class="image">
+            <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
+        </div>
+        <br>
+        <a th:href="@{/admin/product/edit/{id}(id=${product.getId()})}">Редактирование товара</a>
+        <a th:href="@{/admin/product/delete/{id}(id=${product.getId()})}">Удаление товара</a>
+    </div>
     <hr>
 </div>
 </body>

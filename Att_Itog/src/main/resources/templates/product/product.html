@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <title>Список товаров</title>
     <link th:href="@{/css/product.css}">
+
 </head>
 
 <style>
 	body{
 		background-color: papayawhip;
-		color: black;
 		}
 	
 	.container {
@@ -29,7 +29,7 @@
         flex-direction: column;
         text-align: center;
         background-color:white;
-        margin: 20px;}
+        margin: 40px;}
 
     .tovar:hover {
 		border: black solid 1px;
@@ -40,7 +40,7 @@
 		flex-direction: column;
 		text-align: center;
 		background-color:white;
-        margin: 20px;}
+        margin: 40px;}
 
 	.image{
 		display: flex;
@@ -51,63 +51,114 @@
 		text-decoration: none;
 		font-size: 20px;
 	}
+    .sort{
+        width: 47%;
+        float: left;
+    }
+    .picture{
+        width: 100%;
+        float: right;
+    }
+    .title{
+        display: flex;
+        justify-content: center;
+    }
+
+
+	.flex-container{
+		display:flex;
+		padding: 15px;
+		background-color: white;
+        border: black solid 1px;
+	}
+	.flex-container>div{
+	padding:20px;
+	}
 </style>
 
 <body>
+
+<div class="title">
 <h1>Главная страница магазина</h1>
-<h3>Сортировка, поиск, фильтрация</h3>
-<hr>
-<form method="POST" th:action="@{/product/search}">
-    <fieldset>
-        <legend>Выберите параметры для сортировки, поиска, фильтрации:</legend>
-        <label for="search">Поиск по наименованию</label>
-        <input type="text" id="search" name="search" th:value="*{value_search}">
-        <br>
-        <p>Цена, руб.</p>
-        <label for="ot">От</label>
-        <input type="text" name="ot" id="ot" th:value="*{value_price_ot}">
-        <label for="do">До</label>
-        <input type="text" name="do" id="do" th:value="*{value_price_do}">
-        <br>
-        <br>
-        <div>
-            <input type="radio" id="ascending_price" name="price" value="sorted_by_ascending_price">
-            <label for="ascending_price">Сортировать по возрастанию цены</label>
-            <input type="radio" id="descending_price" name="price" value="sorted_by_descending_price">
-            <label for="descending_price">Сортировать по убыванию цены</label>
-            <p>Категория товаров: </p>
-            <input type="radio" id="accessories" name="contract" value="accessories">
-            <label for="accessories">Аксессуары</label>
-            <input type="radio" id="food" name="contract" value="food">
-            <label for="food">Корма</label>
-            <input type="radio" id="toppings" name="contract" value="toppings">
-            <label for="toppings">Наполнители</label>
-            <br>
-            <br>
-            <input type="submit" value="Найти">
-        </div>
-    </fieldset>
-</form>
-<hr>
-<h3>Результат поиска, сортировки и фильтрации</h3>
-<div th:each="product : ${search_product}">
-    <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
-    <br>
-    <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
-    <p th:text="'Цена: ' + ${product.getPrice()}"></p>
-    <hr>
+</div>
+
+
+<div class="flex-container">
+
+    <div class="sort">
+        <h3>Сортировка, поиск, фильтрация</h3>
+        <hr>
+        <form method="POST" th:action="@{/product/search}">
+            <fieldset>
+                <legend>Выберите параметры для сортировки, поиска, фильтрации:</legend>
+                <label for="search">Поиск по наименованию</label>
+                <input type="text" id="search" name="search" th:value="*{value_search}">
+                <br>
+                <p>Цена, руб.</p>
+                <label for="ot">От</label>
+                <input type="text" name="ot" id="ot" th:value="*{value_price_ot}">
+                <label for="do">До</label>
+                <input type="text" name="do" id="do" th:value="*{value_price_do}">
+                <br>
+                <br>
+                <div>
+                    <input type="radio" id="ascending_price" name="price" value="sorted_by_ascending_price">
+                    <label for="ascending_price">Сортировать по возрастанию цены</label>
+                    <input type="radio" id="descending_price" name="price" value="sorted_by_descending_price">
+                    <label for="descending_price">Сортировать по убыванию цены</label>
+                    <p>Категория товаров: </p>
+                    <input type="radio" id="accessories" name="contract" value="accessories">
+                    <label for="accessories">Аксессуары</label>
+                    <input type="radio" id="food" name="contract" value="food">
+                    <label for="food">Корма</label>
+                    <input type="radio" id="toppings" name="contract" value="toppings">
+                    <label for="toppings">Наполнители</label>
+                    <br>
+                    <br>
+                    <input type="submit" value="Найти">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <div>
+        <img class="picture" th:src="@{/images/four.jpg}">
+    </div>
+
 </div>
 <hr>
+<div class="title">
+    <h3>Результат поиска, сортировки и фильтрации</h3>
+</div>
+<div class= "container">
+    <div class="tovar" th:each="product : ${search_product}">
+        <div class="image">
+            <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="200px">
+        </div>
+        <br>
+        <a class="name" th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+        <b><p th:text="'Цена: ' + ${product.getPrice()}"></p></b>
+        <hr>
+    </div>
+</div>
+<hr>
+
+<div class="title">
 <h3>Доступные товары: </h3>
+</div>
+
 <div class= "container">
 	<div class="tovar" th:each="product : ${products}">
 		<div class="image">
 			<img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="200px">
 		</div>
-    <br>
-	<a class="name" th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
-        <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+        <br>
+	    <a class="name" th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+        <b><p th:text="'Цена: ' + ${product.getPrice()}"></p></b>
         <hr>
+    </div>
 </div>
+
+
 </body>
 </html>

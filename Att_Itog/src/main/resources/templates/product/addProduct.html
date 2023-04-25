@@ -1,11 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Добавление товара</title>
 </head>
+
+<style>
+    body {
+        background-color: papayawhip;
+    }
+    .container{
+        margin: 0 auto;
+        width: 500px;
+
+        border: black solid 1px;
+        background-color:white;
+        padding: 20px;
+    }
+</style>
+
 <body>
+<div class="container">
 <h3>Добавление товара</h3>
+    <br>
 <form th:method="POST" th:action="@{/admin/product/add}" th:object="${product}" enctype="multipart/form-data">
 
     <label for="title">Введите наименование товара: </label>
@@ -58,6 +75,8 @@
     <br>
     <br>
     <input type="submit" value="Добавить">
+
 </form>
+</div>
 </body>
 </html>

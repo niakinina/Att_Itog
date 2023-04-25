@@ -8,9 +8,7 @@
 <form method="get" th:action="@{/person account}">
     <button type="submit">Товары</button>
 </form><br>
-<form method="get" th:action="@{/orders/delete}">
-    <button type="submit">Удалить заказ</button>
-</form><br>
+
 <h3>Заказы</h3>
 <div th:each="order : ${orders}">
   <h3 th:text="'Заказ № ' + ${order.getNumber()}"></h3>

@@ -4,11 +4,28 @@
     <meta charset="UTF-8">
     <title>Редактирование товара</title>
 </head>
+
+<style>
+    body {
+        background-color: papayawhip;
+    }
+    .container{
+        margin: 0 auto;
+        width: 600px;
+
+        border: black solid 1px;
+        background-color:white;
+        padding: 20px;
+    }
+</style>
+
 <body>
+<div class="container">
 <h3>Редактирование товара</h3>
+    <br>
 <form th:method="POST" th:action="@{/admin/product/edit/{id}(id=${product.getId()})}" th:object="${product}" enctype="multipart/form-data">
     <label for="title">Введите наименование товара: </label>
-    <input type="text" th:field="*{title}" placeholder="Наименование" id="title">
+    <input type="text" th:field="*{title}" placeholder="Наименование" id="title" width="70px">
     <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
     <br>
     <br>
@@ -43,5 +60,6 @@
     <br>
     <input type="submit" value="Редактировать">
 </form>
+</div>
 </body>
 </html>
