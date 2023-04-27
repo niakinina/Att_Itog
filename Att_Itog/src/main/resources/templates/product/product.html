@@ -40,8 +40,8 @@
 		flex-direction: column;
 		text-align: center;
 		background-color:white;
-        margin: 40px;}
-
+        margin: 40px;
+    }
 	.image{
 		display: flex;
 		justify-content: center;
@@ -77,6 +77,14 @@
 </style>
 
 <body>
+
+<div class="flex-container">
+    <div>
+        <form method="get" th:action="@{/authentication}">
+            <button type="submit">Авторизоваться</button>
+        </form>
+    </div>
+</div>
 
 <div class="title">
 <h1>Главная страница магазина</h1>

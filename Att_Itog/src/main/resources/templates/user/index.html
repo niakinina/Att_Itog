@@ -67,7 +67,6 @@
         padding: 15px;
         background-color: white;
         border: black solid 1px;
-
         justify-content: center;
     }
     .flex-container>div{
@@ -153,10 +152,11 @@
 </div>
 <div class= "container">
     <div class="tovar" th:each="product : ${search_product}">
-        <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="200px">
-        <br>
-        <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
-        <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+        <div class="image">
+            <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="200px">
+        </div>
+        <a class="name" th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+        <b><p th:text="'Цена: ' + ${product.getPrice()}"></p></b>
         <hr>
     </div>
 </div>

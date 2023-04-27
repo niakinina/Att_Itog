@@ -10,9 +10,9 @@
         background-color: papayawhip;
     }
     .image{
-    display: flex;
-    justify-content: center;
-    }
+        display: flex;
+        justify-content: center;
+        }
     .container {
         display: flex;
         flex-wrap: wrap;
@@ -28,14 +28,14 @@
 <body>
 
 <div class="container">
-<br>
-<h3>Информация о товаре: </h3>
-<p th:text="'Наименование: ' + ${product.getTitle()}"></p>
-<p th:text="'Описание: ' + ${product.getDescription()}"></p>
-<p th:text="'Цена: ' + ${product.getPrice()}"></p>
-<p th:text="'Склад: ' + ${product.getWarehouse()}"></p>
-<p th:text="'Продавец: ' + ${product.getSeller()}"></p>
-<p th:text="'Категория: ' + ${product.getCategory().getName()}"></p>
+    <br>
+    <h3>Информация о товаре: </h3>
+    <p th:text="'Наименование: ' + ${product.getTitle()}"></p>
+    <p th:text="'Описание: ' + ${product.getDescription()}"></p>
+    <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+    <p th:text="'Склад: ' + ${product.getWarehouse()}"></p>
+    <p th:text="'Продавец: ' + ${product.getSeller()}"></p>
+    <p th:text="'Категория: ' + ${product.getCategory().getName()}"></p>
 </div>
 
 <div class="image" th:each="img : ${product.getImageList()}">

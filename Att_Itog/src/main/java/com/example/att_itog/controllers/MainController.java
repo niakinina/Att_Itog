@@ -80,7 +80,7 @@ public class MainController {
            return "registration";
        }
        personService.register(person);
-       return "redirect:/person account";
+       return "redirect:/authentication";
     }
 
 

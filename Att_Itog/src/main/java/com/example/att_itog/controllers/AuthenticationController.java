@@ -13,7 +13,7 @@ public class AuthenticationController {
 
     @GetMapping("/authentication")
     public String login(){
-        return "authentication";
+        return "/authentication";
     }
 
 
