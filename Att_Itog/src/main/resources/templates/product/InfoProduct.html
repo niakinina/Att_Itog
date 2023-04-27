@@ -18,24 +18,32 @@
         flex-wrap: wrap;
         padding: 20px;
         margin: 20px;
-        align-items: center;
+
         justify-content: center;
         border: black solid 1px;
         background-color: white;
     }
+
 </style>
 
 <body>
+<div class="container">
+    <h1>Информация о товаре</h1>
+</div>
 
 <div class="container">
-    <br>
-    <h3>Информация о товаре: </h3>
+
+
     <p th:text="'Наименование: ' + ${product.getTitle()}"></p>
     <p th:text="'Описание: ' + ${product.getDescription()}"></p>
     <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+    <br>
     <p th:text="'Склад: ' + ${product.getWarehouse()}"></p>
+    <br>
     <p th:text="'Продавец: ' + ${product.getSeller()}"></p>
+    <br>
     <p th:text="'Категория: ' + ${product.getCategory().getName()}"></p>
+    <br>
 </div>
 
 <div class="image" th:each="img : ${product.getImageList()}">

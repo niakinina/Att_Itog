@@ -5,16 +5,94 @@
     <title>Корзина</title>
 </head>
 <body>
-<h3>Корзина товаров</h3>
-<div th:each="product : ${cart_product}">
-    <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
-    <br>
-    <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
-    <p th:text="'Цена: ' + ${product.getPrice()}"></p>
-    <a th:href="@{/cart/delete/{id}(id=${product.getId()})}">Удалить</a>
-    <hr>
+
+<style>
+    body {
+        background-color: papayawhip;
+    }
+    .image{
+        display: flex;
+        justify-content: center;
+    }
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 20px;
+        margin: 20px;
+        align-items: center;
+        justify-content: center;
+    }
+    .title{
+        display: flex;
+        justify-content: center;
+    }
+    .tovar {
+        border: black solid 1px;
+        width: 700px;
+
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        background-color:white;
+        margin: 40px;
+    }
+    .tovar:hover {
+        border: black solid 1px;
+        width: 700px;
+        box-shadow: 0px -50px 100px pink;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        background-color:white;
+        margin: 40px;
+    }
+    .flex-container{
+        display:flex;
+        padding: 15px;
+        background-color: white;
+        border: black solid 1px;
+        justify-content: center;
+    }
+    .flex-container>div{
+        padding:20px;
+    }
+</style>
+
+<div class="flex-container">
+    <div>
+        <form method="get" th:action="@{/person account}">
+            <button type="submit">Товары</button>
+        </form>
+    </div>
 </div>
-<h3 th:text="'Итоговая цена: ' + ${price}"></h3>
-<a href="/order/create">Оформить заказ</a>
+
+<div class="title">
+    <h1>Корзина товаров</h1>
+</div>
+
+<div class="container">
+    <div class="tovar" th:each="product : ${cart_product}">
+        <div class="image">
+            <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
+        </div>
+        <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+        <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+
+        <a th:href="@{/cart/delete/{id}(id=${product.getId()})}">Удалить</a>
+        <hr>
+    </div>
+</div>
+
+<div class="flex-container">
+    <div>
+        <h3 th:text="'Итоговая цена: ' + ${price}"></h3>
+        <form method="get" th:action="@{/order/create}">
+            <button type="submit">Оформить заказ</button>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>

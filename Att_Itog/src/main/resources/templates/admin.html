@@ -163,10 +163,15 @@
 </div>
 
 
-<hr>
-<div class="title">
-<a href="admin/product/add" font-size="20pt">Добавить товар</a>
+
+<div class="flex-container">
+    <div>
+        <form method="get" th:action="@{/admin/product/add}">
+            <button type="submit">Добавить товар</button>
+        </form>
+    </div>
 </div>
+
 
 <div class="container">
     <div class="tovar" th:each="product : ${products}">
